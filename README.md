@@ -3,7 +3,7 @@
 My thought process/logic behind each solution is written below.
 
 
-Q1. It asks how to configure Nginx so that any content ending with specific file extensions like css, jpg, jpeg, js, json, png, mp4, pdf returns a 404 error when accessed via curl. <br>
+Q1. The task involves configuring Nginx to return a 404 error for any content ending with specific file extensions (css, jpg, jpeg, js, json, png, mp4, pdf) when accessed via curl. <br>
 Solution. Utilizing location blocks in the Nginx configuration, a regex (\.(css|jpg|jpeg|js|json|png|mp4|pdf)$) is employed to match URIs with the specified file extensions. Inside the location block, the directive return 404; is used to generate a 404 response for matching requests.
 ```js
 location ~* \.(css|jpg|jpeg|js|json|png|mp4|pdf)$ {
@@ -11,7 +11,8 @@ location ~* \.(css|jpg|jpeg|js|json|png|mp4|pdf)$ {
 }
 ```
 
-Q2. This question asks us on how to log various fields in the Nginx access log, including time, Nginx version, remote address, request ID, status, and few other parameters. <br>
+Q2. This question asks us on how to log various fields in the Nginx access log, including time, Nginx version, remote address, request ID, status, and few other parameters.This question focuses on logging various fields in the Nginx access log, such as time, Nginx version, remote address, request ID, status, and additional parameters.
+<br>
 Solution. By defining a custom log format within the http block of the Nginx config using log_format, all requested fields, like $time_local, $nginx_version, $remote_addr, $request_id, $status, etc., are included. The access_log directive is then set in the config to specify the log file path and utilize the custom format.
 ```js
 log_format custom '$time_local $nginx_version $remote_addr $request_id $status $body_bytes_sent "$http_user_agent" $proxy_protocol_addr $server_name $upstream_addr $request_time $upstream_connect_time $upstream_header_time $upstream_response_time "$request" $upstream_status $ssl_session_reused "$http_x_forwarded_for"';
@@ -20,7 +21,7 @@ log_format custom '$time_local $nginx_version $remote_addr $request_id $status $
 access_log /var/log/nginx/access.log custom;
 ```
 
-Q3. The third question is about adding HTTP security headers in Nginx, but only if they are not already set in the response from the upstream server. The question also lists default values for various headers like Strict-Transport-Security, X-Content-Type-Options, X-XSS-Protection etc. <br>
+Q3. The third question involves adding HTTP security headers in Nginx only if they are not already set in the response from the upstream server. Default values for various headers like Strict-Transport-Security, X-Content-Type-Options, X-XSS-Protection, etc., are provided. <br>
 Solution. A separate location block is used, employing add_header. Each add_header directive is enclosed in an if block checking whether the corresponding header is already set in the upstream response using $sent_http_* variables. If the header is not present, the add_header directive adds it. The use of the always parameter ensures headers are added regardless of the response code.
 ```js
 location / {
