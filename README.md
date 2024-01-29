@@ -1,5 +1,4 @@
-# Nginx Takehome
-Nginx Takehome assessment
+# Nginx assessment
 
 My thought process/logic behind each solution is written below.
 
